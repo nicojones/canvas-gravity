@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Gravity</title>
+<link href="css/style.css" type="text/css" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet"> 
+
+<body>
+    <section id="footer">
+      Made with &hearts; by <a href="https://kupfer.es/" target="_blank">Nico Kupfer</a>
+    </section>
+    <section id="help" style="display: none;" title="click anywhere to close">
+      <span style="position: absolute;right: 15px;font-size:30px;">&times;</span>
+      <h3>Canvas Experiment... #1</h3>
+      <p>I wanted to learn the &lt;canvas&gt; HTML object and I decided to make some balls bounce around.</p>
+      <p>What can you do?</p>
+      <ul>
+        <li>Change the settings: Bounce %, number of balls, gravity... </li>
+        <li>Close the screen, so balls bounce on the ceiling as well</li>
+        <li>Click anywhere on the screen to add a ball in a random direction</li>
+        <li>Click and drag anywhere on the screen to <i>slingshot</i> a ball. The longer you wait, the slower it gets slingshotted!</li>
+        <li>Visit my website <a href="https://kupfer.es/" target="_blank">kupfer.es</a></li>
+      </ul>
+      <p>click anywhere to close</p>
+    </section>
+    <form id="form" name="settings" class=" visible">
+      <a id="keep_visible" href="#">visible</a>
+      <a id="help_button" href="#">?</a>
+      <label>value of gravity
+        <input type="text" name="gravity" id="form_g_val"/>
+      </label>
+      <label>
+        number of balls
+        <input type="number" name="num_balls" id="form_num_balls"/>
+      </label>
+      <label>
+        rolling friction %
+        <input type="text" name="x_drag" id="form_x_drag"/>
+      </label>
+      <label>
+        bouncing %
+        <input type="text" name="bounce_loss" id="form_bounce_loss"/>
+      </label>
+      <label>
+        box borders
+        <input type="checkbox" name="has_roof" value="1" id="form_has_roof" checked />
+        <span id="form_has_roof_image"></span>
+      </label>
+    </form>
+    <canvas id="canvas" height="" width=""></canvas>
+  <script type="text/javascript" src="js/gravity.js"></script>
+  
+</body>      
