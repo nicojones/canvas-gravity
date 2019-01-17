@@ -4,4 +4,4 @@
 
 An experiment into the wonderful wonders of the &lt;canvas&gt;!  
 
-[You can play with it here](https://nicojones.github.io/canvas-gravity/)
+[You can play with it here](https://nicojones.github.io/canvas-gravity/gravity.html)
