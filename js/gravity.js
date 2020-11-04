@@ -337,4 +337,5 @@ function onFormChange () {
 // if ?simple=1 is set, we hide the footer.
 if (window.location.search.match(/simple=1/)) {
   document.getElementById('footer').style.display = 'none';
+  form_inputs.form.className = form_inputs.form.className.replace('visible', '');
 }
