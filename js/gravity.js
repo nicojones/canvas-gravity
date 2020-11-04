@@ -266,7 +266,7 @@ form_inputs.form.addEventListener('change', onFormChange)
 form_inputs.visible.addEventListener('click', function(e) {
   let visible = form_inputs.form.className.match('visible');
   if (visible) {
-    form_inputs.form.className = form_inputs.form.className.replace(' visible', '');
+    form_inputs.form.className = form_inputs.form.className.replace('visible', '');
   } else {
     form_inputs.form.className += ' visible';
   }
@@ -331,3 +331,10 @@ function onFormChange () {
 
   return false;
 };
+
+
+// Miscellaneous
+// if ?simple=1 is set, we hide the footer.
+if (window.location.search.match(/simple=1/)) {
+  document.getElementById('footer').style.display = 'none';
+}
