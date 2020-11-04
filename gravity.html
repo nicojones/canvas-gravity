@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <title>Gravity</title>
 <link href="css/style.css" type="text/css" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css?family=Comfortaa" rel="stylesheet"> 
+<link href="https://fonts.googleapis.com/css?family=Manrope" rel="stylesheet"> 
 
 <body>
     <section id="footer">
@@ -25,30 +25,39 @@
       </ul>
       <p>click anywhere to close</p>
     </section>
-    <form id="form" name="settings" class=" visible">
+    <form id="form" name="settings" class="visible">
       <a id="keep_visible" href="#">visible</a>
-      <a id="help_button" href="#">?</a>
-      <label>value of gravity
+      <a id="help_button" href="#" class="micro-help" title="click to see more">?</a>
+      <span>settings</span>
+      <label style="position: relative">value of gravity
+        <a class="micro-help" title="Gravity (weight) of a planet at its surface is the strength by which it 'pulls you' down. Planets with more mass have higher gravity">?</a>
         <input type="text" name="gravity" id="form_g_val"/>
+        <ul id="planets">
+          <a href="#" class="planet moon" data-gravity="1.62" title="set gravity from the Moon"></a>
+          <a href="#" class="planet earth" data-gravity="9.81" title="set gravity from Earth"></a>
+          <a href="#" class="planet mars" data-gravity="3.711" title="set gravity from Mars"></a>
+          <a href="#" class="planet jupiter" data-gravity="24.79" title="set gravity from Jupiter"></a>
+        </ul>
       </label>
       <label>
         number of balls
         <input type="number" name="num_balls" id="form_num_balls"/>
       </label>
       <label>
-        rolling friction %
+        rolling friction (1 - 10) <a class="micro-help" title="Rolling friction is the resistive force that slows down the motion of a rolling ball or wheel. It is also called rolling resistance.">?</a>
         <input type="text" name="x_drag" id="form_x_drag"/>
       </label>
       <label>
-        bouncing %
+        bouncing % <a class="micro-help" title="The coefficient of restitution is a number which indicates how much kinetic energy (energy of motion) remains after bouncing. If the coefficient is high (very close to 100%) it means that very little kinetic energy was lost during the bounce.">?</a>
         <input type="text" name="bounce_loss" id="form_bounce_loss"/>
       </label>
       <label>
-        box borders
+        box borders <a class="micro-help" title="If you 'close' the box, the balls can't escape through the roof.">?</a>
         <input type="checkbox" name="has_roof" value="1" id="form_has_roof" checked />
         <span id="form_has_roof_image"></span>
       </label>
     </form>
+    <a id="dark_mode" href="#"></a>
     <canvas id="canvas" height="" width=""></canvas>
   <script type="text/javascript" src="js/gravity.js"></script>
   

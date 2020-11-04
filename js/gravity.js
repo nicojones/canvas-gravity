@@ -36,6 +36,8 @@ const form_inputs = {
   has_roof:    document.getElementById('form_has_roof'),
   help_button: document.getElementById('help_button'),
   help_box:    document.getElementById('help'),
+  dark_mode:   document.getElementById('dark_mode'),
+  planet:      document.getElementsByClassName('planet')
 };
 
 function resize_elements() {
@@ -46,11 +48,18 @@ function resize_elements() {
   canvas_obj.setAttribute('height', wheigh);
 }
 
-function create_random_color() {
+const create_random_color = () => {
+  "use strict";
 
-  random_color = r(Math.random() * 360);
-  return random_color;
-}
+  const randomInt = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  };
+
+  const h = randomInt(0, 360);
+  const s = randomInt(42, 98);
+  const l = randomInt(40, 90);
+  random_color = [h, s + '%', l + '%'];
+};
 
 class Ball {
 
@@ -59,11 +68,9 @@ class Ball {
 
     new_color && create_random_color();
 
-    let color = random_color - 0,
-        radius = 20 * Math.random() + 20;
+    const radius = 20 * Math.random() + 20;
 
-    this.color = color;
-
+    this.color = random_color;
     this.radius = radius; // radius of ball, in px;
     this.y = this.y_0 = y_0 || r(wheigh * Math.random() * 0.8 + wheigh * 0.2); // distance of bottom of ball to surface
     this.y_direction = -1;
@@ -72,8 +79,6 @@ class Ball {
     this.x = this.x_0= x_0 || r((wwidth - 100) * Math.random());
     this.x_direction= (vx_0 != 0 ? (vx_0 > 0 ? 1 : -1) : Math.random() > 0.5 ? 1 : -1);
     this.curr_speed_x = this.vx_0= (vx_0 + v_0) ? Math.abs(Number(vx_0)) : Math.random() * 30;
-
-    this.color_lightness = 50;
 
     this.created = + new Date();
     this.bouncing= 1;
@@ -87,7 +92,7 @@ class Ball {
         br = this.radius * 0.2,
         grd = ctx.createRadialGradient(cx - br, cy - br, 0, cx, cy, this.radius);
 
-    grd.addColorStop(1, `hsl(${this.color}, 100%, ${this.color_lightness}%)`);
+    grd.addColorStop(1, `hsl(${ this.color.join(',') })`);
     grd.addColorStop(0, "#eee");
 
     let c = new Circle(cx, cy, this.radius, grd);
@@ -183,7 +188,7 @@ animate = () => {
     ctx.lineWidth = 5;
 
     let fadeout = Math.pow(0.9, (((+ new Date()) - mousedown_stats.time)/100));
-    ctx.strokeStyle = 'hsla(' + random_color + ',100%,50%,' + fadeout + ')';
+    ctx.strokeStyle = `hsla(${ random_color.join(',') },${ fadeout })`;
     ctx.stroke(); 
   }
 
@@ -252,13 +257,53 @@ canvas_obj.addEventListener('mouseup', function(e) {
 
 form_inputs.num_balls.value = num_balls;
 form_inputs.g_val.value = g_val;
-form_inputs.x_drag.value = x_drag * 100;
+form_inputs.x_drag.value = Math.round((x_drag - 0.9) * 100 * 10) / 10 ;
 form_inputs.bounce_loss.value = bounce_loss * 100;
 form_inputs.has_roof.checked = has_roof;
 
-form_inputs.form.addEventListener('change', function() {
+form_inputs.form.addEventListener('change', onFormChange)
+
+form_inputs.visible.addEventListener('click', function(e) {
+  let visible = form_inputs.form.className.match('visible');
+  if (visible) {
+    form_inputs.form.className = form_inputs.form.className.replace(' visible', '');
+  } else {
+    form_inputs.form.className += ' visible';
+  }
+
+  e.preventDefault();
+  e.stopPropagation();
+  return false;
+});
+
+
+form_inputs.help_button.addEventListener('click', function(e) {
+  form_inputs.help_box.style.display = 'inline-block';
+});
+
+form_inputs.help_box.addEventListener('click', function(e) {
+  this.style.display = 'none';
+});
+
+for (let i = 0, len = form_inputs.planet.length; i < len; ++i) {
+  form_inputs.planet[i].addEventListener('click', function(e) {
+    form_inputs.g_val.value = e.target.dataset.gravity;
+    onFormChange();
+  });
+}
+
+form_inputs.dark_mode.addEventListener('click', function(e) {
+  if (document.body.className.match(/dark/)) {
+    document.body.className = '';
+  } else {
+    document.body.className = 'dark';
+  }
+})
+
+
+function onFormChange () {
   g_val = Number(form_inputs.g_val.value);
-  x_drag = Number(form_inputs.x_drag.value) / 100;
+  x_drag = ((Number(form_inputs.x_drag.value) / 100) + 0.9).toFixed(2);
   bounce_loss = Number(form_inputs.bounce_loss.value) / 100;
   has_roof = form_inputs.has_roof.checked;
 
@@ -285,25 +330,4 @@ form_inputs.form.addEventListener('change', function() {
   }
 
   return false;
-});
-
-form_inputs.visible.addEventListener('click', function(e) {
-  let visible = form_inputs.form.className.match('visible');
-  if (visible) {
-    form_inputs.form.className = form_inputs.form.className.replace(' visible', '');
-  } else {
-    form_inputs.form.className += ' visible';
-  }
-
-  e.preventDefault();
-  e.stopPropagation();
-  return false;
-});
-
-
-form_inputs.help_button.addEventListener('click', function(e) {
-  form_inputs.help_box.style.display = 'inline-block';
-});
-form_inputs.help_box.addEventListener('click', function(e) {
-  this.style.display = 'none';
-});
+};
