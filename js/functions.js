@@ -22,3 +22,27 @@ const create_random_color = () => {
   const l = randomInt(40, 90);
   random_color = [h, s + '%', l + '%'];
 };
+
+function is_touch_device() {  
+  try {  
+    document.createEvent("TouchEvent");  
+    return true;  
+  } catch (e) {  
+    return false;  
+  }  
+}
+
+function cursor_actions () {
+  const mouseActions = {
+    down: 'mousedown',
+    move: 'mousemove',
+    up: 'mouseup'
+  };
+  if (is_touch_device()) {
+    mouseActions.down = 'touchstart';
+    mouseActions.move = 'touchmove',
+    mouseActions.up = 'touchend'
+  }
+
+  return mouseActions;
+}

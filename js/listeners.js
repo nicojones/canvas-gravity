@@ -1,17 +1,18 @@
+const cursorActions = cursor_actions();
 
 // Listeners
-canvas_obj.addEventListener('mousedown', function (e) {
+canvas_obj.addEventListener(cursorActions.down, function (e) {
     mousedown_stats.coords = { x: e.clientX, y: e.clientY };
     mousedown_stats.time = + new Date();
     mousedown_stats.down = true;
     create_random_color();
 });
 
-canvas_obj.addEventListener('mousemove', function (e) {
+canvas_obj.addEventListener(cursorActions.move, function (e) {
     mousedown_stats.current = { x: e.clientX, y: e.clientY };
 });
 
-canvas_obj.addEventListener('mouseup', function (e) {
+canvas_obj.addEventListener(cursorActions.up, function (e) {
     mousedown_stats.down = false;
     let coords = { x: e.clientX, y: e.clientY }, 
     duration = (+ new Date()) - mousedown_stats.time, // difference in milliseconds
