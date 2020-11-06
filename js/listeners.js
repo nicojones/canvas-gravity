@@ -2,27 +2,26 @@ const cursorActions = cursor_actions();
 
 // Listeners
 canvas_obj.addEventListener(cursorActions.down, function (e) {
-    mousedown_stats.coords = { x: e.clientX, y: e.clientY };
+    mousedown_stats.coords = mousedown_stats.current = cursorXY(e);
     mousedown_stats.time = + new Date();
     mousedown_stats.down = true;
     create_random_color();
 });
 
 canvas_obj.addEventListener(cursorActions.move, function (e) {
-    mousedown_stats.current = { x: e.clientX, y: e.clientY };
+    mousedown_stats.current = cursorXY(e);
 });
 
 canvas_obj.addEventListener(cursorActions.up, function (e) {
     mousedown_stats.down = false;
-    let coords = { x: e.clientX, y: e.clientY }, 
     duration = (+ new Date()) - mousedown_stats.time, // difference in milliseconds
-        distance_x = mousedown_stats.coords.x - coords.x,
-        distance_y = mousedown_stats.coords.y - coords.y,
+        distance_x = mousedown_stats.coords.x - mousedown_stats.current.x,
+        distance_y = mousedown_stats.coords.y - mousedown_stats.current.y,
 
         speed_x = -100 * distance_x / duration,
         speed_y = 100 * distance_y / duration;
 
-    let ball = new Ball(false, speed_y, speed_x, wheigh - coords.y, coords.x);
+    let ball = new Ball(false, speed_y, speed_x, wheigh - mousedown_stats.current.y, mousedown_stats.current.x);
 
     ++num_balls;
     form_inputs.num_balls.value = num_balls;
